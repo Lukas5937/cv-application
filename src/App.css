@@ -40,3 +40,14 @@
 .read-the-docs {
   color: #888;
 }
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 128px;
+}
+
+.input-container label {
+  font-weight: 700;
+  font-size: 1.25rem;
+}

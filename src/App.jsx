@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
 import './App.css'
+import General from './components/General'
+import Education from './components/Education'
+import Work from './components/Work'
 
-function App() {
-  const [count, setCount] = useState(0)
+const FormContext = React.createContext()
+
+export default function App() {
+  const [formData, setFormData] = React.useState({})
+  const [submitted, setSubmitted] = React.useState(false)
+
+  function handleChange(e) {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    setSubmitted(true)
+  }
+
+  function editForm() {
+    setFormData({})
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <FormContext.Provider value={{ formData, handleChange, submitted }}>
+        <form onSubmit={handleSubmit}>
+          <General />
+          <Education />
+          <Work />
+          <button>Sumbit</button>
+          <button onClick={editForm} type="button">
+            Edit
+          </button>
+        </form>
+      </FormContext.Provider>
     </>
   )
 }
 
-export default App
+export { FormContext }
